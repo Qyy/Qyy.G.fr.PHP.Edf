@@ -8,8 +8,8 @@ date_default_timezone_set('Europe/Paris');
 // pour rappel une constante magique CHANGE en fonction du contexte, et le
 // conseil du comm. crée une véritable constante dont la valeur serra
 // toujours la même. On risque donc de se trouver avec un __DIR__ contenant
-// une fausse valeur si ce code est appellé avant dans fichier contenu dans
-// un autre répertoire avant PHP 5.3.
+// une fausse valeur si ce code est appellé avant dans un fichier d'un autre
+// répertoire avant PHP 5.3.
 if (
   (defined(__DIR__) && __DIR__ != dirname(__FILE__))
   || !defined('__DIR__'))
