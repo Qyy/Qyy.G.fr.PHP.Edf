@@ -272,8 +272,8 @@ class Edf
   * Durée de signal souhaité. Si la durée est strictement inferieur à 1, elle
   * sera interprétée comme la duréemaximal jussqu'à la fin du signal.
   * </p>
-  * @return int Retourne l'index temporel en seconde sur le signal par rapport
-  * à la durée souhaité.
+  * @return int Retourne l'index temporel en seconde sur le signal par
+  * rapport à la durée souhaité.
   */
   public static function ObtienFinSeconde (
     $nombreSecondesSignal,
@@ -330,8 +330,8 @@ class Edf
    * La borne haute de la plage de valeurs analogiques.
    * </p>
    * @param int $valeurNumeriqueMin <p>
-   * La borne basse de la plage de valeur numérique (-32768 max pour un entier
-   * de 16 bits signé avec un complément à 2).
+   * La borne basse de la plage de valeur numérique (-32768 max pour un
+   * entier de 16 bits signé avec un complément à 2).
    * </p>
    * @param int $valeurNumeriqueMax <p>
    * La borne basse de la plage de valeur numérique (32767 max pour un entier
@@ -352,8 +352,8 @@ class Edf
     
     // Le coup de gain je pourrais pas l'expliquer, mais visiblement, ça
     // permet d'avoir des valeurs correct après la virgule, en comparaison
-    // des valeurs retourné par [EDFbrowser](http://www.teuniz.net/edfbrowser)
-    // lors d'un export ASCII.
+    // des valeurs retourné par
+    // [EDFbrowser](http://www.teuniz.net/edfbrowser) lors d'un export ASCII.
     // Merci [Alain-Qyy](https://github.com/Alain-Qyy) pour avoir trouvé
     // l'astuce !
     $valeurNumeriqueGain = $valeurNumerique * 1000000;
@@ -427,8 +427,9 @@ class Edf
   }
 
   /**
-   * Récupère le nom du fichier EDF tel qu'il à été fournit à l'instantiation,
-   * de la classe après la suppression des slashs et des anti-slashs.
+   * Récupère le nom du fichier EDF tel qu'il à été fournit à
+   * l'instantiation, de la classe après la suppression des slashs et des
+   * anti-slashs.
    * @return string Retourne le nom fichier EDF chargé.
    */
   private function GetNomFichier ()
@@ -640,8 +641,8 @@ class Edf
     {
       foreach($fichiers as $fichier)
       { 
-        // Étant donné que le paramètre `suffix` est sensible à la casse, j'ai
-        // utilisé cette excellente astuce :
+        // Étant donné que le paramètre `suffix` est sensible à la casse,
+        // j'ai utilisé cette excellente astuce :
         // http://fr.php.net/manual/fr/function.basename.php#94026
         $info = pathinfo($fichier);
         $valeur = basename($fichier, '.'.$info['extension']);
