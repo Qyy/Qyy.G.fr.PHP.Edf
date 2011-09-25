@@ -14,12 +14,14 @@ Conçu pour _PHP 5.3_.
 
 Testé sous MacOS X Lion
 
-⇒ Dans le php.ini :
+## Configurations spécifiques
+
+**⇒ Dans le php.ini :**
 
 + augmenter la valeur `max_execution_time` à un minimum de `300` ;
 + passer la valeur `memory_limit` à `-1`.
 
-⇒ Droits spécifiques pour le process qui exécute les scripts _PHP_ :
+**⇒ Créer les répertoires suivants avec les droits spécifiés pour le process qui exécute les scripts _PHP_ :**
 
 + `fichiers/export` : écriture ;
 + `fichiers/import` : lecture ;
