@@ -562,7 +562,8 @@ class Edf
     }
     return $retour;
   }
-    
+
+  // TODO: Doc
   public function GetInfosJson ($formatDate = 'd/m/Y H:i:s')
   {
     $retour = $this->GetInfos();
@@ -570,7 +571,8 @@ class Edf
     
     return json_encode($retour);
   }
-  
+
+  // TODO: Doc
   public Static function GetExtentionFichier ($nomFichier)
   {
     $retour = '.edf';
@@ -597,6 +599,7 @@ class Edf
     return $retour;
   }
   
+  // TODO: Doc
   public static function TesteExistenceFichier ($nomFichierPlusExt)
   {
     return file_exists(
@@ -604,7 +607,8 @@ class Edf
       .Edf::CHEMIN_REPERTOIRE_FICHIERS_IMPORT
       .$nomFichierPlusExt);
   }
-  
+
+  // TODO: Doc
   public static function GetListeFichiers ()
   {
     $fichiers = glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_EDF_MIN);
@@ -621,6 +625,7 @@ class Edf
     return $retour;
   }
   
+  // TODO: Doc
   public static function GetListeFichiersJson ()
   {
     $fichiers = Edf::GetListeFichiers();
