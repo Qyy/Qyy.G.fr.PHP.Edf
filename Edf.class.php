@@ -133,7 +133,7 @@ class Edf
         $i
         .'.'
         .substr(
-          intval('$nomSignal', 36),
+          intval($nomSignal, 36),
           0,
           4));
           
