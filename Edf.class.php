@@ -11,7 +11,7 @@ date_default_timezone_set('Europe/Paris');
 // une fausse valeur si ce code est appellé avant dans un fichier d'un autre
 // répertoire avant PHP 5.3.
 if (
-  (defined(__DIR__) && __DIR__ != dirname(__FILE__))
+  (defined('__DIR__') && __DIR__ != dirname(__FILE__))
   || !defined('__DIR__'))
 {
   define('QYYG_EDF_CHEMIN', dirname(__FILE__).'/');
