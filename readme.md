@@ -19,7 +19,8 @@ Testé sous MacOS X Lion
 **⇒ Dans le php.ini :**
 
 + augmenter la valeur `max_execution_time` à un minimum de `300` ;
-+ passer la valeur `memory_limit` à `-1`.
++ passer la valeur `memory_limit` à `-1` ;
++ eventuellementm passer la valeur `default_charset` à `"utf-8"`.
 
 **⇒ Créer les répertoires suivants avec les droits spécifiés pour le process qui exécute les scripts _PHP_ :**
 
