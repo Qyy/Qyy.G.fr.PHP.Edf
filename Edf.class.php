@@ -620,7 +620,7 @@ class Edf
     
     $retour = false;
     
-    if (count($fichiers) > 1)
+    if (count($fichiers) > 0)
     {
       $retour = $fichiers;
     }
