@@ -34,5 +34,15 @@ Testé sous MacOS X Lion
 
     git submodule add git://github.com/G-Qyy/Qyy.G.en.PHP.Utils.git Qyy.G.en.PHP.Utils
 
+[Mise à jour du sous module][cj-git-submodules] :
+
+    $ git submodule init
+    $ git submodule update
+    $ cd Qyy.G.en.PHP.Utils
+    $ git status
+    $ git checkout master
+    $ git status
+
+[cj-git-submodules]: http://chrisjean.com/2009/04/20/git-submodules-adding-using-removing-and-updating/ "Chris Jean — Git Submodules: Adding, Using, Removing, Updating"
 [edf]: http://www.edfplus.info "European Data Format"
 [gh-submodules]: http://help.github.com/submodules/ "github:help — Working with submodules"
