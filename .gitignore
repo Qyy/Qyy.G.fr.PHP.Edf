@@ -4,7 +4,6 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
-
 .DS_Store
 
 # Thumbnails
@@ -28,6 +27,7 @@ fichiers/import/*
 fichiers/temp/*
 
 tests
+tests.*
 tests/
 
 test-amcharts
