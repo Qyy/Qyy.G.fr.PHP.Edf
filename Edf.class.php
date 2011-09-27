@@ -14,12 +14,12 @@ if (
   (defined('__DIR__') && __DIR__ != dirname(__FILE__))
   || !defined('__DIR__'))
 {
-  define('QYYG_EDF_CHEMIN', dirname(__FILE__).'/');
+  define('QYYG_EDF_CHEMIN', dirname(__FILE__).DIRECTORY_SEPARATOR);
 }
 // Haaa PHP 5.3
 else
 {
-   define('QYYG_EDF_CHEMIN', __DIR__.'/');
+   define('QYYG_EDF_CHEMIN', __DIR__.DIRECTORY_SEPARATOR);
 }
 
 require_once(QYYG_EDF_CHEMIN.'GgVisuDataTable.class.php');
@@ -32,18 +32,28 @@ require_once(QYYG_EDF_CHEMIN.'Signal.class.php');
  */
 class Edf
 {
-  const CHEMIN_REPERTOIRE_FICHIERS        = 'fichiers/';
-  const CHEMIN_REPERTOIRE_FICHIERS_EXPORT = 'fichiers/export/';
-  const CHEMIN_REPERTOIRE_FICHIERS_IMPORT = 'fichiers/import/';
-  const CHEMIN_REPERTOIRE_FICHIERS_TEMP   = 'fichiers/temp/';
-  const EXTENTION_FICHIERS_TEMP           = '.temp';
-  const EXTENTION_FICHIERS_TEMP_BINAIRES  = '.bin.temp';
-  const EXTENTION_FICHIERS_TEMP_JSON      = '.json.temp';
-  const MASQUE_FICHIERS_EDF_MIN           = 'fichiers/import/*.edf';
-  const MASQUE_FICHIERS_EDF_MAJ           = 'fichiers/import/*.EDF';
-  const MASQUE_FICHIERS_TEMP              = 'fichiers/temp/*.temp';
-  const MASQUE_FICHIERS_TEMP_BINAIRES     = 'fichiers/temp/*.bin.temp';
-  const MASQUE_FICHIERS_TEMP_JSON         = 'fichiers/temp/*.json.temp';
+  const CHEMIN_POSIX_REPERTOIRE_FICHIERS        =
+    'fichiers/';
+  const CHEMIN_POSIX_REPERTOIRE_FICHIERS_EXPORT =
+    'fichiers/export/';
+  const CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT =
+    'fichiers/import/';
+  const CHEMIN_POSIX_REPERTOIRE_FICHIERS_TEMP   =
+    'fichiers/temp/';
+  const MASQUE_POSIX_FICHIERS_EDF_MIN           =
+    'fichiers/import/*.edf';
+  const MASQUE_POSIX_FICHIERS_EDF_MAJ           =
+    'fichiers/import/*.EDF';
+  const MASQUE_POSIX_FICHIERS_TEMP              =
+    'fichiers/temp/*.temp';
+  const MASQUE_POSIX_FICHIERS_TEMP_BINAIRES     =
+    'fichiers/temp/*.bin.temp';
+  const MASQUE_POSIX_FICHIERS_TEMP_JSON         =
+    'fichiers/temp/*.json.temp';
+  
+  const EXTENTION_FICHIERS_TEMP          = '.temp';
+  const EXTENTION_FICHIERS_TEMP_BINAIRES = '.bin.temp';
+  const EXTENTION_FICHIERS_TEMP_JSON     = '.json.temp';
   
   const FORMAT_EXPORT_CSV_VIRGULE       = 0;
   const FORMAT_EXPORT_CSV_POINT_VIRGULE = 1;
@@ -65,8 +75,8 @@ class Edf
    * Le nom du fichier EDF à lire sans l'extention (ex : si le fichier se
    * nomme "sample.edf", la chaine à fournir est "sample").<br/>
    * De plus, il doit se trouver à la racine du répertoire
-   * `Edf::CHEMIN_REPERTOIRE_FICHIERS_IMPORT` et ne dooit donc pas contenir
-   * de caractères slash ('/') ou anti-slash ('\').<br/>
+   * `Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT` et ne dooit donc pas
+   * contenir de caractères slash (`/`) ou anti-slash (`\`).<br/>
    * Les espaces, ainsi que les caractères accentués et certains caractères
    * spéciaux sont fortements déconseillés. Il est donc recommandé de
    * renommer le fichier en conscéquence.
@@ -256,7 +266,7 @@ class Edf
   */
   public static function SupprimeSlashAntiSlash ($chaine)
   {
-    return preg_replace('%(/|\\\\)%', '', $chaine);
+    return preg_replace('%/|\\\\%', '', $chaine);
   }
   
   /**
@@ -376,7 +386,9 @@ class Edf
    */
   public static function SupprimeFichiersTemporaires ()
   {
-    array_map('unlink', glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_TEMP));
+    array_map(
+      'unlink',
+      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP));
   }
 
   /**
@@ -385,7 +397,9 @@ class Edf
    */
   public static function SupprimeFichiersTemporairesBinaires ()
   {
-    array_map('unlink', glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_TEMP_BIN));
+    array_map(
+      'unlink',
+      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP_BIN));
   }
 
   /**
@@ -396,7 +410,7 @@ class Edf
   {
     array_map(
       'unlink',
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_TEMP_JSON));
+      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP_JSON));
   }
   
   /**
@@ -448,7 +462,7 @@ class Edf
   {
     return
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_REPERTOIRE_FICHIERS_IMPORT
+      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT
       .$this->GetNomFichier()
       .Edf::GetExtentionFichier($this->GetNomFichier());
   }
@@ -607,16 +621,16 @@ class Edf
   {
     return file_exists(
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_REPERTOIRE_FICHIERS_IMPORT
+      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT
       .$nomFichierPlusExt);
   }
 
   // TODO: Doc
   public static function GetListeFichiers ()
   {
-    $fichiers = glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_EDF_MIN);
+    $fichiers = glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_EDF_MIN);
     $fichiers = array_merge($fichiers,
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_FICHIERS_EDF_MAJ));
+      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_EDF_MAJ));
     
     $retour = false;
     

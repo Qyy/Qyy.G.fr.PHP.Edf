@@ -73,9 +73,9 @@ class Signal
     // http://fr.php.net/manual/fr/function.filesize.php
     // Comme le type entier de PHP est signé et que de nombreuses
     // plates-formes utilisent des entiers de 32 bits, filesize() peut 
-    // retourner des résultats étranges pour les fichiers de taille supérieure
-    // à 2 Go. Pour les fichiers entre 2 et 4 Go, cela peut être contourné 
-    // avec sprintf("%u", filesize($file)).
+    // retourner des résultats étranges pour les fichiers de taille
+    // supérieure à 2 Go. Pour les fichiers entre 2 et 4 Go, cela peut être
+    // contourné avec sprintf("%u", filesize($file)).
     $tailleFichierSignal  = 
       sprintf("%u", filesize($this->GetCheminFichierTemporaire()));
     $nombrePointsSignal   = $tailleFichierSignal / 2;
@@ -416,7 +416,7 @@ class Signal
   {
     return
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_REPERTOIRE_FICHIERS_TEMP
+      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_TEMP
       .$this->nomFichierTemporaire
       .Edf::EXTENTION_FICHIERS_TEMP_BINAIRES;
   }
@@ -425,7 +425,7 @@ class Signal
   {
     return
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_REPERTOIRE_FICHIERS_TEMP
+      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_TEMP
       .$nomFichierCache
       .Edf::EXTENTION_FICHIERS_TEMP_JSON;
   }
