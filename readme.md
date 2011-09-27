@@ -28,4 +28,11 @@ Testé sous MacOS X Lion
 + `fichiers/import` : lecture ;
 + `fichiers/temp` : lecture, écriture.
 
+## Mémo à moi-même
+
+[Ajout du sous module][gh-submodules] :
+
+    git submodule add git://github.com/G-Qyy/Qyy.G.en.PHP.Utils.git Qyy.G.en.PHP.Utils
+
 [edf]: http://www.edfplus.info "European Data Format"
+[gh-submodules]: http://help.github.com/submodules/ "github:help — Working with submodules"
