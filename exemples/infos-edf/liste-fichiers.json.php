@@ -9,7 +9,8 @@ if ($retour === false)
   $erreur = 404;
   $message =
     'Aucun fichier EDF trouvé dans le répertoire "'
-    .Edf::CHEMIN_REPERTOIRE_FICHIERS_IMPORT
+    .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+      Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT)
     .'".';
   include('../inc/erreur.inc.php');
 }
