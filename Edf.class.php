@@ -22,6 +22,12 @@ else
    define('QYYG_EDF_CHEMIN', __DIR__.DIRECTORY_SEPARATOR);
 }
 
+require_once(
+  QYYG_EDF_CHEMIN
+  .'Qyy.G.en.PHP.Utils'
+  .DIRECTORY_SEPARATOR
+  .'Qyy_Gen_Utils.class.php');
+
 require_once(QYYG_EDF_CHEMIN.'GgVisuDataTable.class.php');
 require_once(QYYG_EDF_CHEMIN.'EnteteEdf.class.php');
 require_once(QYYG_EDF_CHEMIN.'EnteteSignaux.class.php');
@@ -388,7 +394,10 @@ class Edf
   {
     array_map(
       'unlink',
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP));
+      glob(
+        QYYG_EDF_CHEMIN
+        .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+          Edf::MASQUE_POSIX_FICHIERS_TEMP)));
   }
 
   /**
@@ -399,7 +408,10 @@ class Edf
   {
     array_map(
       'unlink',
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP_BIN));
+      glob(
+        QYYG_EDF_CHEMIN
+        .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+          Edf::MASQUE_POSIX_FICHIERS_TEMP_BIN)));
   }
 
   /**
@@ -410,7 +422,10 @@ class Edf
   {
     array_map(
       'unlink',
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_TEMP_JSON));
+      glob(
+        QYYG_EDF_CHEMIN
+        .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+          Edf::MASQUE_POSIX_FICHIERS_TEMP_JSON)));
   }
   
   /**
@@ -621,16 +636,25 @@ class Edf
   {
     return file_exists(
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT
+      .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+        Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT)
       .$nomFichierPlusExt);
   }
 
   // TODO: Doc
   public static function GetListeFichiers ()
   {
-    $fichiers = glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_EDF_MIN);
-    $fichiers = array_merge($fichiers,
-      glob(QYYG_EDF_CHEMIN.Edf::MASQUE_POSIX_FICHIERS_EDF_MAJ));
+    $fichiers = glob(
+      QYYG_EDF_CHEMIN
+      .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+        Edf::MASQUE_POSIX_FICHIERS_EDF_MIN));
+        
+    $fichiers = array_merge(
+      $fichiers,
+      glob(
+        QYYG_EDF_CHEMIN
+        .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+          Edf::MASQUE_POSIX_FICHIERS_EDF_MAJ)));
     
     $retour = false;
     
