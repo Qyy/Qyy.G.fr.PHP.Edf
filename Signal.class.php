@@ -427,7 +427,7 @@ class Signal
     return
       QYYG_EDF_CHEMIN
       .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
-        .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_TEMP)
+        Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_TEMP)
       .$nomFichierCache
       .Edf::EXTENTION_FICHIERS_TEMP_JSON;
   }
