@@ -3,7 +3,7 @@
 + **NE PAS ÉXÉCUTER SUR LE WEB !**  
 + **NE PAS ÉXÉCUTER SUR UNE MACHINE DE PRODUCTION !**  
 + **À N'UTILISER QUE EN LOCAL !**  
-+ **GARDER UNE SAUVEGARDE DES FICHIER EDF AVANT DE LES MANIPULER AVEC CE LOGICIEL !**  
++ **GARDER UNE SAUVEGARDE DES FICHIERS EDF AVANT DE LES MANIPULER AVEC CE LOGICIEL !**  
 + **NE PAS UTILISER POUR POSER UN DIAGNOSTIQUE !**
 
 Ce logiciel est une librairie PHP servant à lire [les fichiers EDF][edf]. Ce
@@ -12,7 +12,7 @@ environnement de production.
 
 Conçu pour _PHP 5.3_.
 
-Testé sous MacOS X Lion
+Testé sous _MacOS X Lion_ et sous _Windows Seven_.
 
 ## Configurations spécifiques
 
