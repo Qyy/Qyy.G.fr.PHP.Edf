@@ -1,4 +1,4 @@
-# Lecture des entete EDF en PHP
+# Lecture des fichiers EDF en PHP
 
 + **NE PAS ÉXÉCUTER SUR LE WEB !**  
 + **NE PAS ÉXÉCUTER SUR UNE MACHINE DE PRODUCTION !**  
