@@ -117,4 +117,53 @@ class EnteteEdf
   {
     return clone $this->dateTimeDebutEnregistrement;
   }
+  
+  public function GetInfosEnteteEdf (
+    $formatRetour = null,
+    $formatDate = 'd/m/Y H:i:s')
+  {
+    $retour = array(
+      'dateTimeDebutEnregistrement'      =>
+        $this->GetCloneDateTimeDebutEnregistrement(),
+      'dateDebutEnregistrement'          =>
+        $this->GetDateDebutEnregistrement(),
+      'dureeEnregistrement'              =>
+        $this->GetDureeEnregistrement(),
+      'enregistrementId'                 =>
+        $this->GetEnregistrementId(),
+      'heureDebutEnregistrement'         =>
+        $this->GetHeureDebutEnregistrement(),
+      'nombreEnregistrements'            =>
+        $this->GetNombreEnregistrements(),
+      'nombreOctetsEnteteEnregistrement' =>
+        $this->GetNombreOctetsEnteteEnregistrement(),
+      'nombreSignaux'                    =>
+        $this->GetNombreSignaux(),
+      'patientId'                        =>
+        $this->GetPatientId(),
+      'versionFormatDonnees'             =>
+        $this->GetVersionFormatDonnees()
+    );
+
+    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
+    {
+      $retour = serialize($retour);
+    }
+    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    {
+      $retour['dateTimeDebutEnregistrement'] =
+        $retour['dateTimeDebutEnregistrement']->format(
+          $formatDate);
+        
+      $retour = json_encode($retour);
+    }
+    else if (
+      !is_null($formatRetour)
+      && $formatRetour !== Edf::FORMAT_RETOUR_PHP)
+    {
+      throw new Exception('Format de retour non supporté.', 400);
+    }
+    
+    return $retour;
+  }
 }

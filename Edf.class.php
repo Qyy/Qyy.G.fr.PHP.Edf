@@ -61,6 +61,11 @@ class Edf
   const EXTENTION_FICHIERS_TEMP_BINAIRES = '.bin.temp';
   const EXTENTION_FICHIERS_TEMP_JSON     = '.json.temp';
   
+  const FORMAT_RETOUR_PHP        = 0;
+  const FORMAT_RETOUR_PHP_SERIAL = 1;
+  const FORMAT_RETOUR_JSON       = 2;
+  const FORMAT_RETOUR_XML        = 3;
+  
   const FORMAT_EXPORT_CSV_VIRGULE       = 0;
   const FORMAT_EXPORT_CSV_POINT_VIRGULE = 1;
   const FORMAT_EXPORT_CSV_TABULATION    = 2;
@@ -523,85 +528,69 @@ class Edf
     }
   }
   
-  /**
-   * Récupère les infos sur le fichier EDF sous la forme d'un tableau PHP.
-   * @return array Retourne un tableau contenant les infos sur le fichier EDF
-   */
-  public function GetInfos ()
+  // Récupère les infos sur le fichier EDF sous la forme d'un tableau PHP.
+  // @return array Retourne un tableau contenant les infos sur le fichier EDF 
+  // TODO: doc
+  public function GetInfos (
+    $formatRetour = null,
+    $formatDate = 'd/m/Y H:i:s') // Utile que pour JSON
   {
+    // TODO: infos sur le fichier d'origine
+    
+    try
+    {
+      $enteteEdf = $this->GetEnteteEdf()->GetInfosEnteteEdf();
+    }
+    catch (Exception $exEnteteEdf)
+    {
+      throw new Exception(
+        "Erreur lors de la récupération des infos de l'entête.",
+        500,
+        $exEnteteEdf);
+    }
+    
     $retour = array(
-      'enteteEdf' => array(
-        'dateTimeDebutEnregistrement'      =>
-          $this->enteteEdf->GetCloneDateTimeDebutEnregistrement(),
-        'dateDebutEnregistrement'          =>
-          $this->enteteEdf->GetDateDebutEnregistrement(),
-        'dureeEnregistrement'              =>
-          $this->enteteEdf->GetDureeEnregistrement(),
-        'enregistrementId'                 =>
-          $this->enteteEdf->GetEnregistrementId(),
-        'heureDebutEnregistrement'         =>
-          $this->enteteEdf->GetHeureDebutEnregistrement(),
-        'nombreEnregistrements'            =>
-          $this->enteteEdf->GetNombreEnregistrements(),
-        'nombreOctetsEnteteEnregistrement' =>
-          $this->enteteEdf->GetNombreOctetsEnteteEnregistrement(),
-        'nombreSignaux'                    =>
-          $this->enteteEdf->GetNombreSignaux(),
-        'patientId'                        =>
-          $this->enteteEdf->GetPatientId(),
-        'versionFormatDonnees'             =>
-          $this->enteteEdf->GetVersionFormatDonnees()
-      ),
+      'enteteEdf' => $enteteEdf,
       'signaux' => array()
     );
     
     foreach ($this->GetSignaux() as $signal)
     {
-      $retour['signaux'][] = array(
-        'cheminFichierTemporaire'       =>
-          $signal->GetCheminFichierTemporaire(),
-        'frequenceEchantillonnage'      =>
-          $signal->GetFrequenceEchantillonnage(),
-        'nom'                           =>
-          $signal->GetNom(),
-        'nomFichierTemporaire'          =>
-          $signal->GetNomFichierTemporaire(),
-        'nombrePointsParEnregistrement' =>
-          $signal->GetNombrePointsParEnregistrement(),
-        'nombrePointsSignal'            =>
-          $signal->GetNombrePointsSignal(),
-        'nombreSecondesSignal'          =>
-          $signal->GetNombreSecondesSignal(),
-        'octetsParSeconde'              =>
-          $signal->GetOctetsParSeconde(),
-        'prefiltrage'                   =>
-          $signal->GetPrefiltrage(),
-        'tailleFichierSignal'           =>
-          $signal->GetTailleFichierSignal(),
-        'typeTransducteur'              =>
-          $signal->GetTypeTransducteur(),
-        'uniteAnalogique'               =>
-          $signal->GetUniteAnalogique(),
-        'valeurAnalogiqueMax'           =>
-          $signal->GetValeurAnalogiqueMax(),
-        'valeurAnalogiqueMin'           =>
-          $signal->GetValeurAnalogiqueMin(),
-        'valeurNumeriqueMax'            =>
-          $signal->GetValeurNumeriqueMax(),
-        'valeurNumeriqueMin'            =>
-          $signal->GetValeurNumeriqueMin()
-      );
+      try
+      {
+        $retour['signaux'][] = $signal->GetInfoSignal();
+      }
+      catch (Exception $exSignal)
+      {
+        throw new Exception(
+          'Erreur lors de la récupération des infos du signal : "'
+            .$signal->GetNom()
+            .'"',
+          500,
+          $exSignal);
+      }
     }
-    return $retour;
-  }
-
-  // TODO: Doc
-  public function GetInfosJson ($formatDate = 'd/m/Y H:i:s')
-  {
-    $retour = $this->GetInfos();
-    $retour['enteteEdf']['dateTimeDebutEnregistrement']->format($formatDate);
     
-    return json_encode($retour);
+    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
+    {
+      $retour = serialize($retour);
+    }
+    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    {
+      $retour['enteteEdf']['dateTimeDebutEnregistrement'] =
+        $retour['enteteEdf']['dateTimeDebutEnregistrement']->format(
+          $formatDate);
+      
+      $retour = json_encode($retour);
+    }
+    else if (
+      !is_null($formatRetour)
+      && $formatRetour !== Edf::FORMAT_RETOUR_PHP)
+    {
+      throw new Exception('Format de retour non supporté.', 400);
+    }
+    
+    return $retour;
   }
 
   // TODO: Doc

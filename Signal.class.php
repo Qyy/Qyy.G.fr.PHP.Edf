@@ -431,4 +431,59 @@ class Signal
       .$nomFichierCache
       .Edf::EXTENTION_FICHIERS_TEMP_JSON;
   }
+  
+  public function GetInfoSignal ($formatRetour = null)
+  {
+    $retour = array(
+      'cheminFichierTemporaire'       =>
+        $this->GetCheminFichierTemporaire(),
+      'frequenceEchantillonnage'      =>
+        $this->GetFrequenceEchantillonnage(),
+      'nom'                           =>
+        $this->GetNom(),
+      'nomFichierTemporaire'          =>
+        $this->GetNomFichierTemporaire(),
+      'nombrePointsParEnregistrement' =>
+        $this->GetNombrePointsParEnregistrement(),
+      'nombrePointsSignal'            =>
+        $this->GetNombrePointsSignal(),
+      'nombreSecondesSignal'          =>
+        $this->GetNombreSecondesSignal(),
+      'octetsParSeconde'              =>
+        $this->GetOctetsParSeconde(),
+      'prefiltrage'                   =>
+        $this->GetPrefiltrage(),
+      'tailleFichierSignal'           =>
+        $this->GetTailleFichierSignal(),
+      'typeTransducteur'              =>
+        $this->GetTypeTransducteur(),
+      'uniteAnalogique'               =>
+        $this->GetUniteAnalogique(),
+      'valeurAnalogiqueMax'           =>
+        $this->GetValeurAnalogiqueMax(),
+      'valeurAnalogiqueMin'           =>
+        $this->GetValeurAnalogiqueMin(),
+      'valeurNumeriqueMax'            =>
+        $this->GetValeurNumeriqueMax(),
+      'valeurNumeriqueMin'            =>
+        $this->GetValeurNumeriqueMin()
+    );
+    
+    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
+    {
+      $retour = serialize($retour);
+    }
+    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    {
+      $retour = json_encode($retour);
+    }
+    else if (
+      !is_null($formatRetour)
+      && $formatRetour !== Edf::FORMAT_RETOUR_PHP)
+    {
+      throw new Exception('Format de retour non supporté.', 400);
+    }
+  
+    return $retour;
+  }
 }

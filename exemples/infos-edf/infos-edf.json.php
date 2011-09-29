@@ -30,8 +30,21 @@ if (!Edf::TesteExistenceFichier($nomFichierPlusExt))
 
 $edf = new Edf($_REQUEST['fichier']);
 
+try
+{
+  $retour = $edf->GetInfos();
+}
+catch (Exception $exGetInfos)
+{
+  $erreur = $exGetInfos->getCode();
+  $message =
+    'Exception : '
+    .$exGetInfos->getMessage();
+  include('../inc/erreur.inc.php');
+}
+
 // TODO: retour JSON !!!
 header('Content-type: text/plain; charset=utf-8');
-var_dump($edf->GetInfos());
+var_dump($retour);
 
 //header('Content-type: application/json; charset=utf-8');
