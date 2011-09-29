@@ -10,25 +10,32 @@ if (!isset($_REQUEST['fichier'])
   include('../inc/erreur.inc.php');
 }
 
-// TODO: `try` / `catch` quans le TODO exception de `GetExtentionFichier`
-// sera fait.
-$nomFichierPlusExt =
-  $_REQUEST['fichier'].Edf::GetExtentionFichier($_REQUEST['fichier']);
-  //$_REQUEST['fichier'].'.edf';
-
-//var_dump($nomFichierPlusExt);
-
-if (!Edf::TesteExistenceFichier($nomFichierPlusExt))
+try
 {
-  $erreur = 404;
+  $nomFichierPlusExt =
+    $_REQUEST['fichier'].Edf::GetExtentionFichier($_REQUEST['fichier']);
+}
+catch (Exception $exGetExtentionFichier)
+{
+  $erreur = $exGetExtentionFichier->getCode();
   $message =
-    'Ni le fichier '.$_REQUEST['fichier']
-    .'.edf ni le fichier '.$_REQUEST['fichier']
-    .".EDF n'existent.";
+    'Exception : '
+    .$exGetExtentionFichier->getMessage();
   include('../inc/erreur.inc.php');
 }
 
-$edf = new Edf($_REQUEST['fichier']);
+try
+{
+  $edf = new Edf($_REQUEST['fichier']);
+}
+catch (Exception $exNewEdf)
+{
+  $erreur = $exNewEdf->getCode();
+  $message =
+    'Exception : '
+    .$exNewEdf->getMessage();
+  include('../inc/erreur.inc.php');
+}
 
 try
 {

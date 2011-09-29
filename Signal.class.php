@@ -310,6 +310,24 @@ class Signal
       fopen(
         $this->GetCheminFichierTemporaire(),
         $mode);
+        
+    if ($this->traitementFichierTemporaire === false)
+    {
+      $derniereErreur = error_get_last();
+
+      throw new Exception(
+        "Echec lors de l'ouverture du fichier temporaire du signal : "
+          .'"'.$this->GetNom().'".'.PHP_EOL
+          .'Vérifier que le document existe et que les droits sont '
+          .'correctement configurées sur le répertoire des fichiers '
+          .'temporaires',
+        404,
+        new Exception(
+          'Message : "'.$derniereErreur['message'].'"'.PHP_EOL
+            .'Fichier : "'.$derniereErreur['file'].'"'.PHP_EOL
+            .'line : '.$derniereErreur['line'].PHP_EOL,
+          $derniereErreur['type']));
+    }
   }
   
   public function GetNom ()

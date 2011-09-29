@@ -182,15 +182,47 @@ class Edf
         $iSig < $this->GetEnteteEdf()->GetNombreSignaux();
         $iSig++)
       {
-        // TODO: lever une exception en cas d'echec de lecture
-        $signal = fread (
+        $signalLu = fread (
           $this->GetTraitement(),
           $this->GetSignaux($iSig)->GetNombrePointsParEnregistrement() * 2);
         
-        // TODO: lever une exception en cas d'echec d'ecriture
-        $reussi = fwrite (
+        if ($signalLu === false)
+        {
+          $derniereErreur = error_get_last();
+          
+          throw new Exception(
+            "Echec lors de la lecture de l'enregistrement à l'index `"
+              .$iEnr.'` dans le fichier EDF '
+              .'"'.$this->GetNomPlusExtentionFichier().'".',
+            500,
+            new Exception(
+              'Message : "'.$derniereErreur['message'].'"'.PHP_EOL
+                .'Fichier : "'.$derniereErreur['file'].'"'.PHP_EOL
+                .'line : '.$derniereErreur['line'].PHP_EOL,
+              $derniereErreur['type']
+              ));
+        }
+
+        $nombreOctesEcrits = fwrite (
           $this->GetSignaux($iSig)->GetTraitementFichierTemporaire(),
-          $signal);
+          $signalLu);
+
+        if ($nombreOctesEcrits === false)
+        {
+          $derniereErreur = error_get_last();
+          
+          throw new Exception(
+            "Echec lors de l'écriture de l'enregistrement à l'index `"
+              .$iEnr.'` dans le fichier temporaire du signal "'
+              .$this->GetSignaux($iSig)->GetNom().'".',
+            500,
+            new Exception(
+              'Message : "'.$derniereErreur['message'].'"'.PHP_EOL
+                .'Fichier : "'.$derniereErreur['file'].'"'.PHP_EOL
+                .'line : '.$derniereErreur['line'].PHP_EOL,
+              $derniereErreur['type']
+              ));
+        }
       }
     }
   }
@@ -206,6 +238,9 @@ class Edf
     $analogique = false
     )
   {
+    throw new Exception(
+      "Edf::ExporteSignaux() n'est pas encore implémenté.", 501);
+    
     $infosExport = array();
     
     if (!is_array($signauxVoulu))
@@ -256,12 +291,10 @@ class Edf
         $debutLecture =
           $debutSeconde * $this->signaux[$iSig]->GetOctetsParSeconde();
         
-        // TODO: lever une exception en cas d'echec de lecture
         $signal = fread (
           $this->traitement,
           $signaux[$iSig]->GetNombrePointsParEnregistrement() * 2);
         
-        // TODO: lever une exception en cas d'echec d'ecriture
         $reussi = fwrite (
           $this->signaux[$iSig]->GetTraitementFichierTemporaire(),
           $signal);
@@ -451,6 +484,26 @@ class Edf
     }
     
     $this->traitement = fopen($this->GetCheminFichier(), $mode);
+    
+    if ($this->traitement === false)
+    {
+      $derniereErreur = error_get_last();
+      
+      throw new Exception(
+        "Echec lors de l'ouverture du fichier EDF. : "
+          .'"'.$this->GetNomPlusExtentionFichier().'"'.PHP_EOL
+          .'Vérifier que le document existe et que les droits en '
+          .'lecture sont correctement configurées sur le répertoire '
+          ."d'import "
+          .'("'.Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+            Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT).'").',
+        404,
+        new Exception(
+          'Message : "'.$derniereErreur['message'].'"'.PHP_EOL
+            .'Fichier : "'.$derniereErreur['file'].'"'.PHP_EOL
+            .'line : '.$derniereErreur['line'].PHP_EOL,
+          $derniereErreur['type']));
+    }
   }
   
   /**
@@ -482,9 +535,24 @@ class Edf
   public function GetCheminFichier ()
   {
     return
+      $this->GetRepertoireFichier()
+      .$this->GetNomPlusExtentionFichier();
+  }
+  
+  // TODO: doc
+  public function GetRepertoireFichier ()
+  {
+    return
       QYYG_EDF_CHEMIN
-      .Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT
-      .$this->GetNomFichier()
+      .Qyy_G_en_Utils::RelativePathFromPosixToEnv(
+        Edf::CHEMIN_POSIX_REPERTOIRE_FICHIERS_IMPORT);
+  }
+  
+  // TODO: doc
+  public function GetNomPlusExtentionFichier ()
+  {
+    return
+      $this->GetNomFichier()
       .Edf::GetExtentionFichier($this->GetNomFichier());
   }
   
@@ -613,8 +681,13 @@ class Edf
         
       if (!Edf::TesteExistenceFichier($nomFichierPlusExt))
       {
-        // TODO: Lever une exception
-        $retour = false;
+        throw new Exception(
+          'Ni le fichier '.$nomFichier.'.edf ni le fichier'
+            .$nomFichier.".EDF n'existent. ".PHP_EOL
+            .'Vérifier que le document existe et que les droits en '
+            .'lecture sont correctement configurées sur le répertoire '
+            ."d'import.",
+          404);
       }
     }
     
