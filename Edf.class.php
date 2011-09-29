@@ -35,6 +35,7 @@ require_once(QYYG_EDF_CHEMIN.'Signal.class.php');
 
 /**
  * La classe Edf fournit une API simple pour lire les fichiers EDF en PHP.
+ * @todo: __sleep et __wakeup pour la serialisation
  */
 class Edf
 {
