@@ -3,7 +3,7 @@
 date_default_timezone_set('Europe/Paris');
 
 // pour que ça marche avant PHP 5.3. Le premier test, c'est au cas où
-// un imbécile lit le comm. de ce crétin et décide de l'appliquer :
+// un quelqu'un lit ce comm. et décide de l'appliquer :
 // http://fr2.php.net/manual/fr/language.constants.predefined.php#105256
 // pour rappel une constante magique CHANGE en fonction du contexte, et le
 // conseil du comm. crée une véritable constante dont la valeur serra
