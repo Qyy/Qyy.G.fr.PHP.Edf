@@ -487,11 +487,7 @@ class Signal
         $this->GetValeurNumeriqueMin()
     );
     
-    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
-    {
-      $retour = serialize($retour);
-    }
-    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
     {
       $retour = json_encode($retour);
     }

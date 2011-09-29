@@ -63,9 +63,8 @@ class Edf
   const EXTENTION_FICHIERS_TEMP_JSON     = '.json.temp';
   
   const FORMAT_RETOUR_PHP        = 0;
-  const FORMAT_RETOUR_PHP_SERIAL = 1;
-  const FORMAT_RETOUR_JSON       = 2;
-  const FORMAT_RETOUR_XML        = 3;
+  const FORMAT_RETOUR_JSON       = 1;
+  const FORMAT_RETOUR_XML        = 2;
   
   const FORMAT_EXPORT_CSV_VIRGULE       = 0;
   const FORMAT_EXPORT_CSV_POINT_VIRGULE = 1;
@@ -640,11 +639,7 @@ class Edf
       }
     }
     
-    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
-    {
-      $retour = serialize($retour);
-    }
-    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
     {
       $retour['enteteEdf']['dateTimeDebutEnregistrement'] =
         $retour['enteteEdf']['dateTimeDebutEnregistrement']->format(

@@ -145,11 +145,7 @@ class EnteteEdf
         $this->GetVersionFormatDonnees()
     );
 
-    if ($formatRetour === Edf::FORMAT_RETOUR_PHP_SERIAL)
-    {
-      $retour = serialize($retour);
-    }
-    else if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
+    if ($formatRetour === EDF::FORMAT_RETOUR_JSON)
     {
       $retour['dateTimeDebutEnregistrement'] =
         $retour['dateTimeDebutEnregistrement']->format(
